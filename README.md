@@ -2,7 +2,7 @@
 Orbit counting algorithm implemented by python.
 
 ## Description
-**Orca** is an efficient algorithm for counting graphlets in networks. 
+**Orca** is an efficient algorithm for counting graphlets in undirect and no-selfloop networks. 
 It computes node- and edge-orbits (of 4- and 5-node graphlets) for each node in the network.
 
 To improve the understanding of the orca for beginners, we re-implemented orca algorithm
