@@ -16,12 +16,14 @@ To accelerate orca on GPU, we have three requirement packages: cupy, cudf, and n
 conda create -n cupy-orca -c rapidsai -c nvidia -c conda-forge cudf=22.08 python=3.8 cudatoolkit=11.5
 conda deactivate
 conda activate cupy-orca
-pip install numba==0.55.2
+git clone https://github.com/xiangsheng1325/python-orca
+cd python-orca
 ```
 
 ## Usage
 The utility takes four command-line arguments:
-`python orca.py --orbit-type node --graphlet-size 5 --input-file example_graph.csv --output-file orbit-counts.csv`
+
+`python orca.py --orbit-type node --graphlet-size 4 --input-file example_graph.csv --output-file orbit-counts.csv`
 
 1. *Orbit type* is either `node` or `edge`.
 2. *Graphlet size* indicates the size of graphlets that you wish to count and should be either `4` or `5`.
@@ -36,10 +38,10 @@ The random Erdos-Renyi graph used in the experiment is available in the `example
 ## Comparisons with other implementations
 
 ### Erdos-Renyi graph with 1M nodes and 16M edges
-Time consumption comparison
+Time consumptions (seconds) comparison
 
 |Algorithm|Stage 1|Stage 2|Stage 3|
 |--|--|--|--|
-|[orca (cpu)](http://www.biolab.si/supp/orca/orca.html)|7.04|4.52|91.76|
-|orca (gpu)|0.71|0.16|7.88|
+|[orca-c++ (cpu)](http://www.biolab.si/supp/orca/orca.html)|7.04|4.52|91.76|
+|orca-python (gpu)|0.71|0.16|7.88|
 
