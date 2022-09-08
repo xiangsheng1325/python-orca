@@ -31,3 +31,15 @@ The utility takes four command-line arguments:
 ## Data
 
 The random Erdos-Renyi graph used in the experiment is available in the `example_graph.zip` archive.
+
+
+## Comparisons with other implementations
+
+### Erdos-Renyi graph with 1M nodes and 16M edges
+Time consumption comparison
+
+|Algorithm|Stage 1|Stage 2|Stage 3|
+|--|--|--|--|
+|[orca (cpu)](http://www.biolab.si/supp/orca/orca.html)|7.04|4.52|91.76|
+|orca (gpu)|0.71|0.16|7.88|
+
