@@ -140,6 +140,8 @@ def equation_system(in_col, out_col, deg_mat, dst_list, src_dict, edge_tri, c4_l
                 mybool = True
                 if tri_ey1 > 0 and tri_ez1 > 0:
                     tmpi = 0
+                    if z1 >= dst_list[xnei+(deg_mat[x]//2)]:
+                        tmpi += (deg_mat[x]//2)
                     while tmpi < deg_mat[x]:
                         if z1 < dst_list[xnei+tmpi]:
                             break
@@ -173,6 +175,8 @@ def equation_system(in_col, out_col, deg_mat, dst_list, src_dict, edge_tri, c4_l
                 mybool = True
                 if tri_ey1 > 0 and tri_ez1 > 0:
                     tmpi = 0
+                    if z1 >= dst_list[y1nei+(deg_mat[y1]//2)]:
+                        tmpi += (deg_mat[y1]//2)
                     while tmpi < deg_mat[y1]:
                         if z1 < dst_list[y1nei+tmpi]:
                             break
