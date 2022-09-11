@@ -254,8 +254,6 @@ if __name__ == '__main__':
     eedf['src'] = np.concatenate([src, dst])
     eedf['dst'] = np.concatenate([dst, src])
     eedf['etri'] = np.concatenate([etri, etri])
-    end = time.time()
-    print(end-start)
     ndf = pd.DataFrame()
     ndf['node'] = np.array(range(nnode))
     ndf['deg'] = deg
@@ -265,12 +263,16 @@ if __name__ == '__main__':
     src_dict = src_dict.sort_values().values
     eedf['neigh'] = np.zeros(nedge * 2).astype(np.int32)
     size = len(ndf['node'])
+    end = time.time()
+    t1 = end-start
+    print(t1)
     print("stage 2 - counting full graphlets")
     start = time.time()
     full_graphlet.forall(size)(ndf['node'], c_four, eedf['neigh'], deg, eedf['dst'], src_dict)
     ndf['c4'] = c_four
     end = time.time()
-    print(end - start)
+    t2 = end - start
+    print(t2)
     print("stage 3 - building systems of equations")
     start = time.time()
     threadsperblock = 32
@@ -284,5 +286,6 @@ if __name__ == '__main__':
     df = pd.DataFrame(results)
     df.to_csv(args.output_file, header=None, index=False, sep=" ")
     end = time.time()
-    print(end-start)
-
+    t3 = end-start
+    print(t3)
+    print("total: {}".format(t1+t2+t3))
