@@ -32,7 +32,7 @@ The utility takes four command-line arguments:
 
 ## Data
 
-The random Erdos-Renyi graph used in the experiment is available in the `example_graph.zip` archive.
+The random Erdos-Renyi graph used in the experiment is available in the `example_graph.zip` [archive](https://drive.google.com/file/d/1cWV1evnKYE4G3nQZeEP853qT-IiANbcd/view?usp=sharing).
 
 
 ## Comparisons with other implementations
