@@ -93,16 +93,21 @@ def equation_system(in_col, out_col, deg_mat, dst_list, src_dict, edge_tri, c4_l
         f_9_12=0
         f_4_8=0
         f_8_12=0
-        f_14=c4_list[x];
-        out_col[i][0] = deg_mat[x]
+        f_14=c4_list[x]
+        degx = deg_mat[x]
+        out_col[i][0] = degx
+        f_1 = 0
+        f_2 = 0
+        f_3 = 0
         # x is side node
         nx1 = 0
-        while nx1 < deg_mat[x]:
+        while nx1 < degx:
             y1 = dst_list[xnei+nx1]
+            degy1 = deg_mat[y1]
             y1nei = src_dict[y1]
             tri_ey1 = edge_tri[xnei+nx1]
             ny1 = 0
-            while ny1 < deg_mat[y1]:
+            while ny1 < degy1:
                 z1 = dst_list[y1nei+ny1]
                 if x==z1:
                     ny1 += 1
@@ -111,15 +116,16 @@ def equation_system(in_col, out_col, deg_mat, dst_list, src_dict, edge_tri, c4_l
                 mybool = True
                 if tri_ey1 > 0 and tri_ez1 > 0:
                     tmpi = 0
-                    while tmpi < deg_mat[x]:
+                    while tmpi < degx:# time complexity: O(n*d*d*d)
                         if z1 < dst_list[xnei+tmpi]:
                             break
                         if z1 == dst_list[xnei+tmpi]:
                             mybool = False # xyz is not a path, it is triangle
                         tmpi += 1
                 if mybool: # xyz is a path
-                    out_col[x][1] = out_col[x][1] + 1
-                    f_6_9 += ((deg_mat[y1]-1-tri_ey1-1))
+                    #out_col[x][1] = out_col[x][1] + 1
+                    f_1 += 1
+                    f_6_9 += ((degy1-1-tri_ey1-1))
                     f_9_12 += tri_ez1
                     f_4_8 += ((deg_mat[z1]-1-tri_ez1))
                     # f_8_12 += (common[z]-1);
@@ -128,34 +134,36 @@ def equation_system(in_col, out_col, deg_mat, dst_list, src_dict, edge_tri, c4_l
         # x is middle node
         nx1 = 0
         nx2 = 0
-        while nx1 < deg_mat[x]:
+        while nx1 < degx:
             y1 = dst_list[xnei+nx1]
+            degy1 = deg_mat[y1]
             y1nei = src_dict[y1]
             tri_ey1 = edge_tri[xnei+nx1]
             ny1 = 0
-            while ny1 < deg_mat[y1]:
+            while ny1 < degy1:
                 z1 = dst_list[y1nei+ny1]
                 z1nei = src_dict[z1]
                 tri_ez1 = edge_tri[y1nei+ny1]
                 mybool = True
                 if tri_ey1 > 0 and tri_ez1 > 0:
                     tmpi = 0
-                    if z1 >= dst_list[xnei+(deg_mat[x]//2)]:
-                        tmpi += (deg_mat[x]//2)
-                    while tmpi < deg_mat[x]:
+                    #if z1 >= dst_list[xnei+(deg_mat[x]//2)]:
+                    #    tmpi += (deg_mat[x]//2)
+                    while tmpi < degx:# time complexity: O(N*d*d*d)
                         if z1 < dst_list[xnei+tmpi]:
                             break
                         if z1 == dst_list[xnei+tmpi]:
                             if z1 < y1:
                                 f_12_14 += (tri_ez1-1)
-                                f_10_13 += ((deg_mat[y1]-1-tri_ez1)+(deg_mat[z1]-1-tri_ez1))
+                                f_10_13 += ((degy1-1-tri_ez1)+(deg_mat[z1]-1-tri_ez1))
                             mybool = False # xyz is not a path, it is triangle
                         tmpi += 1
                 if mybool: # if xyz is a path rather than a triangle
                     # calculate butterfly
                     nx2 = 0
                     nz1 = 0
-                    while nx2 < deg_mat[x] and nz1 < deg_mat[z1]:
+                    degz1 = deg_mat[z1]
+                    while nx2 < degx and nz1 < degz1:# time complexity: O(N*d*d*d)
                         if nx2 >= nx1:
                             break
                         y2 = dst_list[xnei+nx2]
@@ -169,32 +177,34 @@ def equation_system(in_col, out_col, deg_mat, dst_list, src_dict, edge_tri, c4_l
                             nx2 += 1
                 ny1 += 1
             nx2 = nx1 + 1
-            while nx2 < deg_mat[x]:
+            while nx2 < degx:
                 z1 = dst_list[xnei+nx2]
                 tri_ez1 = edge_tri[xnei+nx2]
                 mybool = True
                 if tri_ey1 > 0 and tri_ez1 > 0:
                     tmpi = 0
-                    if z1 >= dst_list[y1nei+(deg_mat[y1]//2)]:
-                        tmpi += (deg_mat[y1]//2)
-                    while tmpi < deg_mat[y1]:
+                    #if z1 >= dst_list[y1nei+(deg_mat[y1]//2)]:
+                    #    tmpi += (deg_mat[y1]//2)
+                    while tmpi < degy1:# time complexity: O(N*d*d)
                         if z1 < dst_list[y1nei+tmpi]:
                             break
                         if z1 == dst_list[y1nei+tmpi]:
                             mybool = False # xyz is not a path, it is triangle
                         tmpi += 1
                 if mybool: # if xyz is a path rather than a triangle
-                    out_col[x][2] = out_col[x][2] + 1
-                    f_7_11 += ((deg_mat[x]-1-tri_ey1-1)+(deg_mat[x]-1-tri_ez1-1))
-                    f_5_8 += ((deg_mat[y1]-1-tri_ey1)+(deg_mat[z1]-1-tri_ez1))
+                    #out_col[x][2] = out_col[x][2] + 1
+                    f_2 += 1
+                    f_7_11 += ((degx-1-tri_ey1-1)+(degx-1-tri_ez1-1))
+                    f_5_8 += ((degy1-1-tri_ey1)+(deg_mat[z1]-1-tri_ez1))
                 else:
-                    out_col[x][3] = out_col[x][3] + 1
+                    #out_col[x][3] = out_col[x][3] + 1
+                    f_3 += 1
                     f_13_14 += ((tri_ey1-1)+(tri_ez1-1))
-                    f_11_13 += ((deg_mat[x]-1-tri_ey1)+(deg_mat[x]-1-tri_ez1))
+                    f_11_13 += ((degx-1-tri_ey1)+(degx-1-tri_ez1))
                 nx2 += 1
             nx1 += 1
         # calculate f_8_12
-        f_8_12 = f_8_12 - (out_col[x][2]+out_col[x][3])*2
+        f_8_12 = f_8_12 - (f_2+f_3)*2
         out_col[x][14]=(f_14)
         out_col[x][13]=(f_13_14-6*f_14)/2
         out_col[x][12]=(f_12_14-3*f_14)
@@ -206,6 +216,9 @@ def equation_system(in_col, out_col, deg_mat, dst_list, src_dict, edge_tri, c4_l
         out_col[x][6]=(2*f_12_14+f_6_9-f_9_12-6*f_14)/2
         out_col[x][5]=(2*f_12_14+f_5_8-f_8_12-6*f_14)
         out_col[x][4]=(2*f_12_14+f_4_8-f_8_12-6*f_14)
+        out_col[x][3]=f_3
+        out_col[x][2]=f_2
+        out_col[x][1]=f_1
 
 
 if __name__ == '__main__':
@@ -279,7 +292,7 @@ if __name__ == '__main__':
     print(t2)
     print("stage 3 - building systems of equations")
     start = time.time()
-    threadsperblock = 32
+    threadsperblock = 16
     blockspergrid = math.ceil(size / threadsperblock)
     outdf = pd.DataFrame()
     for i in range(15):
@@ -287,6 +300,8 @@ if __name__ == '__main__':
     results = outdf[[str(i) for i in list(range(15))]].values
     equation_system[blockspergrid, threadsperblock](ndf['node'].values, results, ndf['deg'].values, eedf['dst'].values,
                                                     src_dict, eedf['etri'].values, ndf['c4'].values)
+    #equation_system.forall(size)(ndf['node'].values, results, ndf['deg'].values, eedf['dst'].values,
+    #                             src_dict, eedf['etri'].values, ndf['c4'].values)
     df = pd.DataFrame(results)
     df.to_csv(args.output_file, header=None, index=False, sep=" ")
     end = time.time()
