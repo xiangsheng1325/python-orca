@@ -42,6 +42,6 @@ Time consumptions (seconds) comparison
 
 |Algorithm|Stage 1|Stage 2|Stage 3|Total|
 |--|--|--|--|--|
-|[orca-c++ (cpu)](http://www.biolab.si/supp/orca/orca.html)|7.04|4.52|91.76|103.32|
-|orca-python (gpu)|0.64 (**11.0**$\times$)|0.19 (**23.8**$\times$)|2.87 (**32.0**$\times$)|3.70 (**27.9**$\times$)|
+|[orca-c++](http://www.biolab.si/supp/orca/orca.html)|7.04|4.52|91.76|103.32|
+|orca-python (Speedup)|0.64 (**11.0**$\times$)|0.19 (**23.8**$\times$)|2.87 (**32.0**$\times$)|3.70 (**27.9**$\times$)|
 
